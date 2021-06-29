@@ -44,8 +44,6 @@ export default {
         this.sum = Math.floor(this.operand1 / this.operand2)
       } else if (this.operand1 > this.operand2) {
         this.sum = Math.ceil(this.operand1 / this.operand2)
-      } else if (this.operand1 || this.operand2 === 0) {
-        this.sum = null
       }
     }
   }
