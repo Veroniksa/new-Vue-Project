@@ -4,18 +4,18 @@
     <div>
         <input type="number" placeholder="op1" v-model.number="operand1">
         <input type="number" placeholder="op2" v-model.number="operand2">
-        = {{ sum }}
+        = {{ result }}
     </div>
       <div>
-        <button @click="sum = operand1 + operand2">+</button>
-        <button v-on:click="sum = operand1 - operand2">-</button>
-        <button @click="sum = operand1 * operand2">*</button>
-        <button @click="div">/</button>
+        <button @click="add">+</button>
+        <button v-on:click="substract">-</button>
+        <button @click="multiply">*</button>
+        <button @click="divide">/</button>
         <button v-on:click="expo">^</button>
         <button v-on:click="int">%</button>
         <button @click="eventFn">Event</button>
       </div>
-    Result {{ sum }}
+    Result {{ result }}
 </div>
 </template>
 
@@ -26,24 +26,30 @@ export default {
   data: () => ({
     operand1: 0,
     operand2: 0,
-    sum: 0,
+    result: 0,
     title: 'Калькулятор'
   }),
   methods: {
-    eventFn () {
-      console.log(arguments)
+    add () {
+      this.result = this.operand1 + this.operand2
     },
-    div () {
-      this.sum = this.operand1 / this.operand2
+    substract () {
+      this.result = this.operand1 - this.operand2
+    },
+    divide () {
+      this.result = this.operand1 / this.operand2
+    },
+    multiply () {
+      this.result = this.operand1 * this.operand2
     },
     expo () {
-      this.sum = Math.pow(this.operand1, this.operand2)
+      this.result = Math.pow(this.operand1, this.operand2)
     },
     int () {
       if (this.operand1 < this.operand2) {
-        this.sum = Math.floor(this.operand1 / this.operand2)
+        this.result = Math.floor(this.operand1 / this.operand2)
       } else if (this.operand1 > this.operand2) {
-        this.sum = Math.ceil(this.operand1 / this.operand2)
+        this.result = Math.ceil(this.operand1 / this.operand2)
       }
     }
   }
