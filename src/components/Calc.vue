@@ -12,11 +12,11 @@
          <template v-else-if="result < 100">Число меньше 100</template>
          <template v-else>Число больше 100</template>
      </div>
-     <div class="clollection">
+     <!-- <div class="clollection">
        <div v-for="(item, idx) in collection" :key="idx">
         {{ idx + 1 }} - {{ item }}
        </div>
-     </div>
+     </div> -->
      <div class="buttons">
          <button v-for="btn in buttons"
          :key="btn"
@@ -25,6 +25,31 @@
          @click="calculate(btn)">
          {{ btn }}</button>
      </div>
+     <!-- <div class="keybord">
+       <input type="checkbox" id="checkbox" v-model="checkbox">
+      <label for="checkbox">{{ keybord }}</label>
+     </div> -->
+     <div class="keybord">
+      <input type="checkbox" id="checkbox" v-model="checkbox">
+      <label for="checkbox">{{ keybord }}</label>
+      </div>
+      <div class="bord" v-show="checkbox">
+          <button v-for="(bord, idx) in collection"
+          :key="idx"
+          @click="operand1 = bord"
+          v-on:click="operand2 = bord">
+          {{ bord }}</button>
+          <button class="cancel"> Cancel{{ cancel }}</button>
+      </div>
+        <div class="radio">
+          <input type="radio" id="op1"
+          value="operand1" v-model="radio"
+          @input="radio = operand1">
+          <label for="op1">Operand1</label>
+          <input type="radio" id="op2" value="operand2" v-model="radio"
+          @input="radio = operand2">
+          <label for="op2">Operand2</label>
+        </div>
      <div class="logs">
        {{ logs }}
      </div>
@@ -50,9 +75,15 @@ export default {
     result: 0,
     title: 'Калькулятор',
     buttons: ['+', '-', '*', '/', '^', '%'],
-    collection: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+    collection: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
     fibResult: 0,
     logs: {},
+    keybord: 'Показать экранную клавиатуру',
+    checkbox: false,
+    bord: 0,
+    checked: [],
+    cancel: '',
+    radio: '',
     error: ''
   }),
   methods: {
@@ -98,17 +129,16 @@ export default {
     }, */
     add () {
       this.result = this.operand1 + this.operand2
-      // this.fibResult = this.fib(this.operand1) + this.fib(this.operand2)
-      this.fibResult = this.fib1 + this.fib2
+      this.fibResult = this.fib(this.operand1) + this.fib(this.operand2)
+      // this.fibResult = this.fib1 + this.fib2
     },
     substract () {
       this.result = this.operand1 - this.operand2
-      this.fibResult = this.fib1 - this.fib2
     },
     divide () {
       const { operand1, operand2 } = this
       if (operand2 === 0) {
-        this.error = 'На ноль делить нельзя'
+        this.error = 'На 0 делить нельзя'
       } else {
         this.result = operand1 / this.operand2
       }
@@ -142,5 +172,8 @@ export default {
 <style scoped>
 .error {
   color: red
+}
+button {
+  margin: 5px;
 }
 </style>
