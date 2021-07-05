@@ -29,7 +29,7 @@
        <input type="checkbox" id="checkbox" v-model="checkbox">
       <label for="checkbox">{{ keybord }}</label>
      </div> -->
-     <div class="keybord">
+     <!-- <div class="keybord">
       <input type="checkbox" id="checkbox" v-model="checkbox">
       <label for="checkbox">{{ keybord }}</label>
       </div>
@@ -39,20 +39,23 @@
           @click="operand1 = bord"
           v-on:click="operand2 = bord">
           {{ bord }}</button>
-          <button class="cancel"> Cancel{{ cancel }}</button>
+          <button class="cancel"
+          @click="operand1 = 0"
+          v-on:click="operand2 = 0"> Cancel{{ cancel }}</button>
       </div>
         <div class="radio">
           <input type="radio" id="op1"
-          value="operand1" v-model="radio"
-          @input="radio = operand1">
+          value="operand1" v-model.number="radio"
+          vm.value = vm.radio>
           <label for="op1">Operand1</label>
-          <input type="radio" id="op2" value="operand2" v-model="radio"
-          @input="radio = operand2">
+          <input type="radio" id="op2"
+          value="operand2" v-model.number="radio"
+          vm.value = vm.radio>
           <label for="op2">Operand2</label>
         </div>
      <div class="logs">
        {{ logs }}
-     </div>
+     </div> -->
     <!--       <div>
         <button @click="calculate('+')">+</button>
         <button @click="calculate('-')">-</button>
@@ -61,6 +64,27 @@
         <button @click="calculate('^')">^</button>
         <button @click="calculate('%')">%</button>
       </div> -->
+      <div class="keybord">
+      <input type="checkbox" id="checkbox" v-model="checkbox">
+      <label for="checkbox">{{ keybord }}</label>
+      </div>
+      <div class="bord" v-show="checkbox">
+          <button v-for="(bord, idx) in collection"
+          :key="idx"
+          @click="inputNum(bord)">
+          {{ bord }}</button>
+          <button class="cancel"
+          @click="operand1 = 0"
+          v-on:click="operand2 = 0"> Cancel{{ cancel }}</button>
+      </div>
+      <div class="radio">
+          <input type="radio" id="op1"
+          value="operand1" v-model="radio">
+          <label for="op1">Operand1</label>
+          <input type="radio" id="op2"
+          value="operand2" v-model="radio">
+          <label for="op2">Operand2</label>
+      </div>
     Result {{ result }}
 </div>
 </template>
@@ -80,13 +104,29 @@ export default {
     logs: {},
     keybord: 'Показать экранную клавиатуру',
     checkbox: false,
-    bord: 0,
+    bord: null,
     checked: [],
     cancel: '',
     radio: '',
     error: ''
   }),
   methods: {
+    inputNum (bord) {
+      this.toStringg()
+      if (this.radio === 'operand1') {
+        this.operand1 += bord
+      } else {
+        this.operand2 += bord
+      }
+    },
+    toStringg () {
+      this.operand1 = this.operand1.toString()
+      this.operand2 = this.operand2.toString()
+    },
+    toNum () {
+      this.operand1 = parseInt(this.operand1)
+      this.operand2 = parseInt(this.operand2)
+    },
     fib (n) {
       return n <= 1 ? n : this.fib(n - 1) + this.fib(n - 2)
     },
@@ -128,14 +168,17 @@ export default {
       this.result = calcOperations[op]()
     }, */
     add () {
+      this.toNum()
       this.result = this.operand1 + this.operand2
       this.fibResult = this.fib(this.operand1) + this.fib(this.operand2)
       // this.fibResult = this.fib1 + this.fib2
     },
     substract () {
+      this.toNum()
       this.result = this.operand1 - this.operand2
     },
     divide () {
+      this.toNum()
       const { operand1, operand2 } = this
       if (operand2 === 0) {
         this.error = 'На 0 делить нельзя'
@@ -144,12 +187,15 @@ export default {
       }
     },
     multiply () {
+      this.toNum()
       this.result = this.operand1 * this.operand2
     },
     expo () {
+      this.toNum()
       this.result = Math.pow(this.operand1, this.operand2)
     },
     int () {
+      this.toNum()
       if (this.operand1 < this.operand2) {
         this.result = Math.floor(this.operand1 / this.operand2)
       } else if (this.operand1 > this.operand2) {
