@@ -25,38 +25,10 @@
          @click="calculate(btn)">
          {{ btn }}</button>
      </div>
-     <!-- <div class="keybord">
-       <input type="checkbox" id="checkbox" v-model="checkbox">
-      <label for="checkbox">{{ keybord }}</label>
-     </div> -->
-     <!-- <div class="keybord">
-      <input type="checkbox" id="checkbox" v-model="checkbox">
-      <label for="checkbox">{{ keybord }}</label>
-      </div>
-      <div class="bord" v-show="checkbox">
-          <button v-for="(bord, idx) in collection"
-          :key="idx"
-          @click="operand1 = bord"
-          v-on:click="operand2 = bord">
-          {{ bord }}</button>
-          <button class="cancel"
-          @click="operand1 = 0"
-          v-on:click="operand2 = 0"> Cancel{{ cancel }}</button>
-      </div>
-        <div class="radio">
-          <input type="radio" id="op1"
-          value="operand1" v-model.number="radio"
-          vm.value = vm.radio>
-          <label for="op1">Operand1</label>
-          <input type="radio" id="op2"
-          value="operand2" v-model.number="radio"
-          vm.value = vm.radio>
-          <label for="op2">Operand2</label>
-        </div>
-     <div class="logs">
+     <!-- <div class="logs">
        {{ logs }}
      </div> -->
-    <!--       <div>
+    <!--<div>
         <button @click="calculate('+')">+</button>
         <button @click="calculate('-')">-</button>
         <button @click="calculate('*')">*</button>
@@ -71,11 +43,9 @@
       <div class="bord" v-show="checkbox">
           <button v-for="(bord, idx) in collection"
           :key="idx"
-          @click="inputNum(bord)">
-          {{ bord }}</button>
+          @click="inputNum(bord)">{{ bord }}</button>
           <button class="cancel"
-          @click="operand1 = 0"
-          v-on:click="operand2 = 0"> Cancel{{ cancel }}</button>
+          @click="clear()"> Cancel{{ cancel }}</button>
       </div>
       <div class="radio">
           <input type="radio" id="op1"
@@ -106,11 +76,19 @@ export default {
     checkbox: false,
     bord: null,
     checked: [],
-    cancel: '',
+    cancel: null,
     radio: '',
     error: ''
   }),
   methods: {
+    clear () {
+      this.toStringg()
+      if (this.radio === 'operand1') {
+        this.operand1 = this.operand1.slice(0, -1)
+      } else if (this.radio === 'operand2') {
+        this.operand2 = this.operand2.slice(0, -1)
+      }
+    },
     inputNum (bord) {
       this.toStringg()
       if (this.radio === 'operand1') {
@@ -201,15 +179,15 @@ export default {
       } else if (this.operand1 > this.operand2) {
         this.result = Math.ceil(this.operand1 / this.operand2)
       }
-    },
-    computed: {
+    }
+    /* computed: {
       fib1 () {
         return this.fib(this.operand1)
       },
       fib2 () {
         return this.fib(this.operand2)
       }
-    }
+    } */
   }
 }
 
